@@ -1,18 +1,11 @@
-<?php
-// Tratamento básico do formulário de login admin com redirecionamento para loja.php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Aqui poderia ser feita a validação do usuário e senha admin
-    header("Location: admin_produtos.php");
-    exit();
-}
-?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login Admin - Açougue</title>
+    <title>Login - Açougue</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,16 +62,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container-login">
         <img src="../img/bola.png" alt="Logo Açougue" style="display:block; margin: 0 auto 15px auto; max-height: 80px;" />
-        <h2>Login Admin - Açougue</h2>
-        <form method="POST" action="../src/validaLogin.php">
+        <h2>Cadastrar - Açougue</h2>
+        <form method="POST" action="../src/validaCadastro.php">
             <label for="usuario">Usuário:</label>
-            <input type="hidden" name="admin" value="admin">
             <input type="text" id="usuario" name="usuario" required />
+            
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required />
 
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required />
 
-            <input type="submit" value="Entrar" />
+            <input type="submit" value="Cadastrar" />
         </form>
     </div>
 </body>

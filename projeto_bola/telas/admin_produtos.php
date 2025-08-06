@@ -1,4 +1,22 @@
 <?php
+    session_start();
+
+   //var_dump( isset($_SESSION["autenticado"]) );
+
+    if ( !isset($_SESSION["autenticado"]) ) {
+        echo "<script> window.location.replace('../telas/index.php') </script>";
+    }
+
+require_once "../src/database/Database.php";
+
+$db = new Database();
+
+$sql = "SELECT * FROM produtos";
+
+$result = $db->select($sql);
+
+//var_dump($result);
+
 // Arquivo JSON para armazenar os produtos
 $produtosFile = __DIR__ . '/produtos.json';
 
@@ -168,9 +186,14 @@ $categorias = ['bovino', 'suino', 'aves', 'embutidos'];
     </script>
 </head>
 <body>
+    <nav>
+    <ul style="display: flex; align-items: center; gap: 15px;">
+        <li onclick="window.location.href='../src/logout.php'" style="cursor:pointer; background-color: #db6938ff;; padding: 8px 12px; border-radius: 5px; font-weight: bold; margin-left: auto;">Sair</li>
+    </nav>
+
     <h1>Administração de Produtos</h1>
 
-    <form method="POST" action="admin_produtos.php">
+    <form method="POST" action="../src/cadastroProdutos.php" enctype="multipart/form-data">
         <input type="hidden" name="acao" value="adicionar" />
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required />
@@ -189,7 +212,7 @@ $categorias = ['bovino', 'suino', 'aves', 'embutidos'];
         </select>
 
         <label for="imagem">URL da Imagem:</label>
-        <input type="text" id="imagem" name="imagem" required />
+        <input type="file" id="imagem" name="imagem" required /><br><br>
 
         <button type="submit">Adicionar Produto</button>
         <button onclick="window.location.href='loja.php'" style="margin-left: 295px">loja</button>
@@ -207,51 +230,16 @@ $categorias = ['bovino', 'suino', 'aves', 'embutidos'];
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($produtos as $produto): ?>
+            <?php foreach ($result as $produto): ?>
             <tr>
-                <td><img src="<?= htmlspecialchars($produto['imagem']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" /></td>
-                <td><?= htmlspecialchars($produto['nome']) ?></td>
-                <td><?= htmlspecialchars($produto['descricao']) ?></td>
-                <td><?= number_format($produto['preco'], 2, ',', '.') ?></td>
-                <td><?= htmlspecialchars(ucfirst($produto['categoria'])) ?></td>
-                <td class="acoes">
-                    <button onclick="mostrarFormularioEditar(<?= $produto['id'] ?>)" >Editar</button>
-                    <form method="POST" action="admin_produtos.php" style="display:inline;">
-                        <input type="hidden" name="acao" value="remover" />
-                        <input type="hidden" name="id" value="<?= $produto['id'] ?>" />
-                        <button type="submit" onclick="return confirm('Tem certeza que deseja remover este produto?')">Remover</button>
-                    </form>
-                </td>
+                <td><img src="<?= htmlspecialchars($produto->foto) ?>" alt="<?= htmlspecialchars($produto->nome) ?>" /></td>
+                <td><?= htmlspecialchars($produto->nome) ?></td>
+                <td><?= htmlspecialchars($produto->descricao) ?></td>
+                <td><?= number_format($produto->valor, 2, ',', '.') ?></td>
+                <td><?= htmlspecialchars(ucfirst($produto->categoria)) ?></td>
+                
             </tr>
-            <tr id="editar-<?= $produto['id'] ?>" class="form-editar">
-                <td colspan="6">
-                    <form method="POST" action="admin_produtos.php">
-                        <input type="hidden" name="acao" value="editar" />
-                        <input type="hidden" name="id" value="<?= $produto['id'] ?>" />
-
-                        <label for="nome-<?= $produto['id'] ?>">Nome:</label>
-                        <input type="text" id="nome-<?= $produto['id'] ?>" name="nome" value="<?= htmlspecialchars($produto['nome']) ?>" required />
-
-                        <label for="descricao-<?= $produto['id'] ?>">Descrição:</label>
-                        <input type="text" id="descricao-<?= $produto['id'] ?>" name="descricao" value="<?= htmlspecialchars($produto['descricao']) ?>" required />
-
-                        <label for="preco-<?= $produto['id'] ?>">Preço (R$):</label>
-                        <input type="number" id="preco-<?= $produto['id'] ?>" name="preco" step="0.01" min="0" value="<?= number_format($produto['preco'], 2, '.', '') ?>" required />
-
-                        <label for="categoria-<?= $produto['id'] ?>">Categoria:</label>
-                        <select id="categoria-<?= $produto['id'] ?>" name="categoria" required>
-                            <?php foreach ($categorias as $cat): ?>
-                                <option value="<?= htmlspecialchars($cat) ?>" <?= $produto['categoria'] === $cat ? 'selected' : '' ?>><?= ucfirst(htmlspecialchars($cat)) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-
-                        <label for="imagem-<?= $produto['id'] ?>">URL da Imagem:</label>
-                        <input type="text" id="imagem-<?= $produto['id'] ?>" name="imagem" value="<?= htmlspecialchars($produto['imagem']) ?>" required />
-
-                        <button type="submit">Salvar Alterações</button>
-                    </form>
-                </td>
-            </tr>
+            
             <?php endforeach; ?>
         </tbody>
     </table>

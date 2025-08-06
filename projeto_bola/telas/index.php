@@ -1,12 +1,3 @@
-<?php
-// Tratamento básico do formulário de login com redirecionamento para loja.php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Aqui poderia ser feita a validação do usuário e senha
-    header("Location: loja.php");
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -70,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container-login">
         <img src="../img/bola.png" alt="Logo Açougue" style="display:block; margin: 0 auto 15px auto; max-height: 80px;" />
         <h2>Login - Açougue</h2>
-        <form method="POST" action="">
+        <form method="POST" action="../src/validaLogin.php">
             <label for="usuario">Usuário:</label>
             <input type="text" id="usuario" name="usuario" required />
 
@@ -80,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Entrar" />
         </form>
         <button onclick="window.location.href='admin.php'" style="margin-top: 10px; width: 100%; background-color: #3c1f13; color: #e5b57b; border: none; padding: 10px; font-size: 16px; border-radius: 4px; cursor: pointer;">Admin</button>
+        <button onclick="window.location.href='cadastro.php'" style="margin-top: 10px; width: 100%; background-color: #3c1f13; color: #e5b57b; border: none; padding: 10px; font-size: 16px; border-radius: 4px; cursor: pointer;">Cadastrar</button>
     </div>
 </body>
 </html>

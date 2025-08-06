@@ -1,4 +1,11 @@
 <?php
+    session_start();
+
+    //var_dump( isset($_SESSION["autenticado"]) );
+
+    if ( !isset($_SESSION["autenticado"]) ) {
+        echo "<script> window.location.replace('../telas/index.php') </script>";
+    }
 // Tela de loja com tema açougue inspirada no iFood
 // Espaço para personalização indicado nos comentários abaixo
 
@@ -154,7 +161,7 @@ $produtosArray = json_decode($produtosJson, true);
         <li onclick="filtrarCategoria('suino')" style="cursor:pointer; padding: 8px 12px; background-color: #3c1f13; border-radius: 5px; transition: background-color 0.3s ease;">Suíno</li>
         <li onclick="filtrarCategoria('aves')" style="cursor:pointer; padding: 8px 12px; background-color: #3c1f13; border-radius: 5px; transition: background-color 0.3s ease;">Aves</li>
         <li onclick="filtrarCategoria('embutidos')" style="cursor:pointer; padding: 8px 12px; background-color: #3c1f13; border-radius: 5px; transition: background-color 0.3s ease;">Embutidos</li>
-        <li onclick="window.location.href='index.php'" style="cursor:pointer; background-color: #3c1f13;; padding: 8px 12px; border-radius: 5px; font-weight: bold; margin-left: auto;">Sair</li>
+        <li onclick="window.location.href='../src/logout.php'" style="cursor:pointer; background-color: #3c1f13;; padding: 8px 12px; border-radius: 5px; font-weight: bold; margin-left: auto;">Sair</li>
 </nav>
 
 <main id="produtos-container">

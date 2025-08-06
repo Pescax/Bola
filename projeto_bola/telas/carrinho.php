@@ -161,22 +161,7 @@
 
 <script>
     // Dados de exemplo do carrinho - espaço para personalização ou integração backend
-    let carrinho = [
-        {
-            id: 1,
-            nome: "Picanha Bovino",
-            preco: 59.90,
-            quantidade: 2,
-            imagem: "https://www.receiteria.com.br/wp-content/uploads/receitas-de-picanha-1.jpg"
-        },
-        {
-            id: 3,
-            nome: "Coxa de Frango",
-            preco: 15.50,
-            quantidade: 1,
-            imagem: "https://cdn.panelinha.com.br/receita/750x500/Coxa-de-frango-assada-com-batata.jpg"
-        }
-    ];
+    let carrinho = [];
 
     // Função para formatar valores em moeda BRL
     function formatarPreco(valor) {
